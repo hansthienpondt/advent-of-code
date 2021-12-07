@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"math"
 	"os"
 	"sort"
 	"strconv"
@@ -78,8 +79,7 @@ func part1(crabs []float64) (median, fuelSpent float64) {
 
 func part2(crabs []float64) (roundedmean, fuelSpent float64) {
 	mean := stat.Mean(crabs, nil)
-	//roundedmean = math.Round(mean)
-	roundedmean = float64(int(mean))
+	roundedmean = math.Round(mean - 0.1)
 
 	fuelSpent = d2FromMedian(crabs, roundedmean)
 	return roundedmean, fuelSpent
