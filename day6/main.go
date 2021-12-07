@@ -91,4 +91,8 @@ func main() {
 	amount_part2 := part1(fish, p2days)
 	fmt.Printf("Part2: after %d days, there are %d fish\n", p2days, amount_part2)
 
+	p3days := 1000
+	amount_part3 := part1(fish, p3days)
+	fmt.Printf("Part2: after %d days, there are %d fish\n", p3days, amount_part3)
+
 }
