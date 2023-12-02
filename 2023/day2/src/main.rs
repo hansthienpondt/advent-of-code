@@ -42,12 +42,45 @@ where
 
 fn day1a(filename: String) -> u32 {
     let mut sum: u32 = 0;
+    let maxred: u32 = 12;
+    let maxgreen: u32 = 13;
+    let maxblue: u32 = 14;
 
     // File input.txt must exist in the current path
     if let Ok(lines) = read_lines(filename) {
         for line in lines {
             if let Ok(l) = line {
-                // code here
+                let lineSlice: Vec<&str> = l.split(":").collect();
+                let gameStr: Vec<&str> = lineSlice[0].split(" ").collect();
+                let gameNum: u32 = gameStr[1].parse().unwrap();
+                let mut possible = true;
+
+                // println!("{:?} {:?} {:?}", lineSlice, gameStr, gameNum);
+                for colors in lineSlice[1].split(";") {
+                    let mut red: u32 = 0;
+                    let mut green: u32 = 0;
+                    let mut blue: u32 = 0;
+
+                    for color in colors.split(",") {
+                        let colorSlice: Vec<&str> = color.split(" ").collect();
+                        let colorValue: u32 = colorSlice[1].parse::<u32>().unwrap();
+
+                        match colorSlice[2] {
+                            "blue" => blue += colorValue,
+                            "red" => red += colorValue,
+                            "green" => green += colorValue,
+                            _ => println!("AI! No color match"),
+                        }
+                    }
+
+                    //println!("{} {} {}", blue, red, green);
+                    if red > maxred || green > maxgreen || blue > maxblue {
+                        possible = false;
+                    }
+                }
+                if possible {
+                    sum += gameNum;
+                }
             }
         }
     }
@@ -58,10 +91,44 @@ fn day1b(filename: String) -> u32 {
 
     // File input.txt must exist in the current path
     if let Ok(lines) = read_lines(filename) {
-        // Consumes the iterator, returns an (Optional) String
         for line in lines {
             if let Ok(l) = line {
-                // code here
+                let lineSlice: Vec<&str> = l.split(":").collect();
+                let gameStr: Vec<&str> = lineSlice[0].split(" ").collect();
+
+                let mut red: u32 = 0;
+                let mut green: u32 = 0;
+                let mut blue: u32 = 0;
+                // println!("{:?} {:?} {:?}", lineSlice, gameStr, gameNum);
+                for colors in lineSlice[1].split(";") {
+                    for color in colors.split(",") {
+                        let colorSlice: Vec<&str> = color.split(" ").collect();
+                        let colorValue: u32 = colorSlice[1].parse::<u32>().unwrap();
+
+                        match colorSlice[2] {
+                            "blue" => {
+                                if colorValue > blue {
+                                    blue = colorValue
+                                }
+                            }
+                            "red" => {
+                                if colorValue > red {
+                                    red = colorValue
+                                }
+                            }
+                            "green" => {
+                                if colorValue > green {
+                                    green = colorValue
+                                }
+                            }
+                            _ => println!("AI! No color match"),
+                        }
+                    }
+
+                    //println!("{} {} {}", blue, red, green);
+                }
+                sum += red * green * blue;
+                //println!("{}", sum);
             }
         }
     }
